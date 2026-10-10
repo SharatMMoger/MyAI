@@ -1,0 +1,7 @@
+groq
+python-dotenv
+sympy
+PyPDF2
+python-docx
+python-pptx
+openpyxl

@@ -2,8 +2,6 @@
 
 A modular AI assistant in Python that combines deterministic tools (calculator, file readers) with LLM intelligence (via the Groq API). Tasks run through a dispatcher, every task is tracked and verified, and complex requests can be broken into steps and executed automatically.
 
-Built for the Razorpay AI Buildathon (Open Track) and extended since.
-
 ## Features
 
 - **LLM-powered chat**: general questions answered through Groq (`openai/gpt-oss-120b`), including Hindi and Hinglish
@@ -83,7 +81,7 @@ Registration order matters: `goal` is registered first, and `llm_fallback` last.
 ```
 2. Install dependencies:
 ```
-   pip install groq python-dotenv sympy
+    pip install -r requirements.txt
 ```
 3. Create a `.env` file in the same folder as `llm_tool.py`:
 ```
