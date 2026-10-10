@@ -2,13 +2,15 @@ import os
 from dotenv import load_dotenv
 from groq import Groq
 
-load_dotenv()
+import os as _os
+_env_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), ".env")
+load_dotenv(_env_path)
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def ask_llm(prompt, system_prompt="You are a helpful assistant."):
     """
-    Groq API ko call karta hai aur response return karta hai.
+    Calls the Groq API and returns the response.
     """
     try:
         response = client.chat.completions.create(
@@ -27,14 +29,14 @@ def ask_llm(prompt, system_prompt="You are a helpful assistant."):
 
 def summarize_text(text):
     """
-    Diya gaya text summarize karta hai.
+    Summarizes the given text.
     """
     prompt = f"Summarize the following text clearly and concisely:\n\n{text}"
     return ask_llm(prompt, system_prompt="You are an expert summarizer. Give clear, concise summaries.")
 
 def answer_question(document_text, question):
     """
-    Document ke content ke base pe user ke sawaal ka jawab deta hai.
+    Answers the user's question based on the given document content.
     """
     prompt = f"""You are answering a question based on the following document.
 Only use information from the document below. If the answer isn't in the document, say so clearly.
@@ -47,3 +49,32 @@ QUESTION:
 
 ANSWER:"""
     return ask_llm(prompt, system_prompt="You are a helpful assistant that answers questions strictly based on the provided document content.")    
+
+import json as _json
+
+def break_into_steps(goal_text):
+    """
+    Uses the LLM to break a complex goal into a list of simple,
+    executable command strings (matching MyAI's existing command style).
+    Returns a Python list of strings.
+    """
+    prompt = f"""Break the following user goal into a numbered list of simple, sequential steps.
+Each step should be phrased as a short, direct command (like "readpdf filename.pdf" or "summarize it" or "sqrt 25").
+Only output the steps, one per line, numbered like "1. ...". Do not add explanations.
+
+GOAL: {goal_text}
+"""
+    response = ask_llm(prompt, system_prompt="You are a task planner. Break goals into simple, executable steps only.")
+
+    steps = []
+    for line in response.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        # remove leading "1. " / "1) " style numbering
+        import re
+        cleaned = re.sub(r"^\d+[\.\)]\s*", "", line)
+        if cleaned:
+            steps.append(cleaned)
+
+    return steps    

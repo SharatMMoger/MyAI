@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 _archive/
+user_memory.json
+user_memory.txt
+task_history.json
+history.txt
+*_old_backup.py
