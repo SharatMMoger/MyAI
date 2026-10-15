@@ -44,8 +44,10 @@ def dispatch(question, context=None):
 
     for task in TASKS:
         try:
-            if task["can_handle"](question):
-                return _run_with_tracking(task, question, context)
+                if task["can_handle"](question):
+                    result = _run_with_tracking(task, question, context)
+                    if result is not None:
+                        return result
         except Exception as e:
             print(f"[Dispatcher] Task '{task['name']}' matching failed: {e}")
             continue
