@@ -1,14 +1,13 @@
 """
-LLM Fallback task — handles any question that no other task could answer.
-This should always be registered LAST, so it acts as a catch-all.
+LLM Fallback task: handles any question no other task could answer.
+Always registered LAST. Uses chat history so follow-up questions work.
 """
-from llm_tool import ask_llm
+from llm_tool import chat_llm
 
 
 def can_handle(question):
-    # This task can handle literally anything — it's the fallback.
     return True
 
 
 def run(question, context):
-    return ask_llm(question)
+    return chat_llm(question)

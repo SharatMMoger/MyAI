@@ -100,3 +100,6 @@ Registration order matters: `goal` is registered first, and `llm_fallback` last.
 - Verify functions for more tasks, and smarter recovery when a step fails
 - OCR for scanned documents
 - Advisory-only medical, financial and coding modules (information and guidance, never diagnosis or financial advice)
+
+- **Natural-language commands**: phrases like "25 square root is" are converted into commands by the LLM (English, Hindi, french, chainese, japanise and any other languages)
+- **Conversational follow-ups**: the last few turns are remembered during a session, so "and about France?" works

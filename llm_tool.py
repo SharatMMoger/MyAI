@@ -78,3 +78,35 @@ GOAL: {goal_text}
             steps.append(cleaned)
 
     return steps    
+
+_chat_history = []
+MAX_HISTORY_MESSAGES = 8
+
+CHAT_SYSTEM_PROMPT = (
+    "You are MyAI, a helpful assistant. Keep answers short and direct unless the user asks for detail. "
+    "Use the earlier conversation to understand follow-up questions such as 'and about France?'. "
+    "If a question is too unclear to answer, ask one short clarifying question."
+)
+
+
+def chat_llm(question):
+    """Chat with short-term memory: the last few turns are sent along with each question."""
+    messages = [{"role": "system", "content": CHAT_SYSTEM_PROMPT}]
+    messages += _chat_history
+    messages.append({"role": "user", "content": question})
+
+    try:
+        response = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=1024
+        )
+        answer = response.choices[0].message.content
+    except Exception as e:
+        return f"LLM error: {str(e)}"
+
+    _chat_history.append({"role": "user", "content": question})
+    _chat_history.append({"role": "assistant", "content": answer})
+    del _chat_history[:-MAX_HISTORY_MESSAGES]
+    return answer    

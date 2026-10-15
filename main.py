@@ -7,6 +7,7 @@ from tasks import (
     memory_task_v2,
     compare_task,
     progress_task,
+    nl_command_task,
     llm_fallback_task,
     goal_task
 )
@@ -21,6 +22,7 @@ dispatcher.register('ask', ask_task_v2.can_handle, ask_task_v2.run)
 dispatcher.register('memory', memory_task_v2.can_handle, memory_task_v2.run)
 dispatcher.register('compare', compare_task.can_handle, compare_task.run)
 dispatcher.register('progress', progress_task.can_handle, progress_task.run)
+dispatcher.register('nl_command', nl_command_task.can_handle, nl_command_task.run)
 dispatcher.register('llm_fallback', llm_fallback_task.can_handle, llm_fallback_task.run)
 
 print("Welcome to MyAI!")
