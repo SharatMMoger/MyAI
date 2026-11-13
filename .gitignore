@@ -7,3 +7,5 @@ user_memory.txt
 task_history.json
 history.txt
 *_old_backup.py
+chroma_db/
+documents/

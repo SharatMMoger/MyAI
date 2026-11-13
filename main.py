@@ -9,19 +9,21 @@ from tasks import (
     progress_task,
     nl_command_task,
     llm_fallback_task,
-    goal_task
+    goal_task,
+    rag_task
 )
 
 # Register all tasks — ORDER MATTERS
 # goal must be FIRST (its text contains other commands), llm_fallback must be LAST
 dispatcher.register('goal', goal_task.can_handle, goal_task.run)
 dispatcher.register('calculator', calculator_task_v2.can_handle, calculator_task_v2.run, verify=calculator_task_v2.verify)
-dispatcher.register('file_reading', file_reading_task.can_handle, file_reading_task.run)
-dispatcher.register('summarize', summarize_task_v2.can_handle, summarize_task_v2.run)
-dispatcher.register('ask', ask_task_v2.can_handle, ask_task_v2.run)
+dispatcher.register('file_reading', file_reading_task.can_handle, file_reading_task.run, verify=file_reading_task.verify)
+dispatcher.register('summarize', summarize_task_v2.can_handle, summarize_task_v2.run, verify=summarize_task_v2.verify)
+dispatcher.register('ask', ask_task_v2.can_handle, ask_task_v2.run, verify=ask_task_v2.verify)
 dispatcher.register('memory', memory_task_v2.can_handle, memory_task_v2.run)
 dispatcher.register('compare', compare_task.can_handle, compare_task.run)
 dispatcher.register('progress', progress_task.can_handle, progress_task.run)
+dispatcher.register('rag', rag_task.can_handle, rag_task.run, verify=rag_task.verify)
 dispatcher.register('nl_command', nl_command_task.can_handle, nl_command_task.run)
 dispatcher.register('llm_fallback', llm_fallback_task.can_handle, llm_fallback_task.run)
 

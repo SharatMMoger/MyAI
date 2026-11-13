@@ -5,3 +5,11 @@ PyPDF2
 python-docx
 python-pptx
 openpyxl
+langchain
+langchain-core
+langchain-text-splitters
+langchain-groq
+langchain-huggingface
+langchain-chroma
+chromadb
+sentence-transformers
