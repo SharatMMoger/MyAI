@@ -42,12 +42,13 @@ def log_task(task_name, question, status, error=None):
 
 def get_progress():
     """
-    Returns a summary: completed, failed, total, and percentage.
+    Counts only finished tasks (COMPLETED or FAILED). RUNNING entries are
+    start markers, not outcomes, so they are not part of the total.
     """
     history = _load_history()
-    total = len(history)
     completed = sum(1 for h in history if h["status"] == "COMPLETED")
     failed = sum(1 for h in history if h["status"] == "FAILED")
+    total = completed + failed
 
     percentage = round((completed / total) * 100, 1) if total > 0 else 0
 

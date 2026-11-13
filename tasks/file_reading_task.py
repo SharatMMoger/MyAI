@@ -46,3 +46,10 @@ def run(question, context):
         return f"Error reading file: {str(e)}"
 
     return None
+
+def verify(question, result):
+    """A file read succeeded if we got text back that is not one of our own error messages."""
+    text = str(result).strip().lower()
+    if not text:
+        return False
+    return not text.startswith(("pdf error", "error reading file", "no matching"))

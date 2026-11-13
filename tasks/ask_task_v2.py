@@ -35,3 +35,9 @@ def run(question, context):
 
     except Exception as e:
         return f"Error answering question: {str(e)}"
+
+def verify(question, result):
+    text = str(result).strip().lower()
+    if not text:
+        return False
+    return not text.startswith(("llm error", "error answering", "no file has been opened"))
